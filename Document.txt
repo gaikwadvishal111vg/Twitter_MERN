@@ -1,0 +1,2 @@
+Used below comment to generate a randome string for use JWT_SECRET KEY or any other purpose.
+CMD : - openssl rand -base64 32
