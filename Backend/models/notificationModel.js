@@ -20,11 +20,12 @@ const notificationSchema = new mongoose.Schema({
                     type: Boolean,
                     default: false,
                 },
-                createdAt: {
-                    type: Date,
-                    default: Date.now, // Automatically set createdAt date
-                }
-},{timestamps:true});
+                // createdAt: {
+                //     type: Date,
+                //     default: Date.now, // Automatically set createdAt date
+                // }
+},
+{timestamps:true});
 const Notification = mongoose.model('Notification', notificationSchema);
 export default Notification;
 // follow and unfollow type not show ing on mongobd check and currectit

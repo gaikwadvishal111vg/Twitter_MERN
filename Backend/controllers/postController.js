@@ -117,7 +117,7 @@ try {
     });
 
     if(posts.length === 0){
-        return res.status(202).json([]);
+        return res.status(200).json([]);
     }
     res.status(200).json(posts);
 } catch (error) {

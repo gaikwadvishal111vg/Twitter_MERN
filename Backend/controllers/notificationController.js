@@ -7,14 +7,14 @@ export const getNotifications = async (req,res) => {
             path:"from",
             select:"username profileImg"
         });
-await Notifications.updateMany({
+await Notification.updateMany({
     to:userId},{read:true});
     res.status(200).json(notifications);
     } catch (error) {
         console.log("Error in getNotification function", error.message);
         res.status(500).json({error:"Internal server Error"});
     }
-}
+};
 export const deleteNotifications =async (req, res) => {
     try {
         const userId = req.user._id;

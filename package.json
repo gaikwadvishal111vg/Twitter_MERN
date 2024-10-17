@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"nodemon Backend/index.js",
+    "dev": "nodemon Backend/index.js",
     "start": "node Backend/index.js"
   },
   "keywords": [],
@@ -20,5 +20,8 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }

@@ -1,15 +1,26 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useMutation } from '@tanstack/react-query';
+// import { useMutation } from '@tanstack/react-query';
 
 import XSvg from "../../components/svgs/X";
-
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { toast } from 'react-hot-toast';
+
 const SignUpPage = () => {
+
+  const  [isLoading , setIsLoading] = useState(false);
+  const  [isError , setIsError] = useState("");
+
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -17,53 +28,40 @@ const SignUpPage = () => {
     password: "",
   });
 
-  const { mutate, isError, isLoading, error } = useMutation({
-    mutationFn: async ({ email, username, fullName, password }) => {
-      try {
-        const res = await fetch("/api/auth/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, username, fullName, password }),
-        });
-        
-        const data = await res.json();
-		if (!res.ok) throw new Error(data.message); 
-        if (data.error) throw new Error(data.error);
-        console.log(data);
-        return data;
-      } catch (error) {
-        console.log(error,"hello");
-		throw error;
-      }
-	// if (!res.ok) throw new Error("Failed to sign up");
+const handleInputChange = (e) => {
+  setFormData({ ...formData, [e.target.name]: e.target.value });
+};
 
-        // Ensure response has body content before trying to parse
-    //     const data = res.status !== 204 ? await res.json() : null;
-    //     if (data && data.error) throw new Error(data.error);
-        
-    //     console.log(data);
-    //     return data;
-    //   } catch (error) {
-    //     console.log(error);
-    //     throw error;
-    //   }
-    },
-	onSuccess:() => {
-		toast.success("Account Created Successfully");
-	}
-  });
 
-  const handleSubmit = (e) => {
+const signUp = async() => {
+
+    try {
+      		const res = await fetch('http://localhost:8080/api/auth/signup', {  
+      		  method: "POST",
+      		  headers: {
+      			"Content-Type": "application/json",
+      		  },
+      		  body: JSON.stringify(formData),
+      		});
+          
+          const  data = await res.json();
+          console.log(data)
+
+  }catch(err){
+    console.log(err)
+  }finally{
+    console.log("form submmited")
+  }
+}  
+
+
+const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(formData);
-    mutate(formData);
+    // mutate(formData);
+    signUp();
   };
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   // const isError = false;
 
@@ -128,8 +126,8 @@ const SignUpPage = () => {
           <button className="btn rounded-full btn-primary text-white">
 		  {isLoading ? "Loading..." : "Sign up"}
           </button>
-          {isError && <p className="text-red-500">{error.message}</p>}
-        </form>
+           {/* {isError && <p className="text-red-500">{error.message}</p>}          */}
+           </form>
         <div className="flex flex-col lg:w-2/3 gap-2 mt-4">
           <p className="text-white text-lg">Already have an account?</p>
           <Link to="/login">
@@ -141,5 +139,6 @@ const SignUpPage = () => {
       </div>
     </div>
   );
-};
+	}
+
 export default SignUpPage;
